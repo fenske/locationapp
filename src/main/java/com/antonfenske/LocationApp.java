@@ -15,30 +15,45 @@
  */
 package com.antonfenske;
 
-import java.security.Principal;
-
 import com.antonfenske.model.User;
 import com.antonfenske.model.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.security.Principal;
+import java.util.Map;
 
 @SpringBootApplication
 @EnableOAuth2Sso
 @RestController
 public class LocationApp extends WebSecurityConfigurerAdapter {
 
+  @Autowired
+  private UserRepository userRepository;
+
   @RequestMapping("/user")
-  public Principal user(UserRepository userRepository, Principal principal) {
-//    User user = new User()
-//    userRepository.save()
-    return principal;
+  public User user(Principal principal) {
+    return updateOrCreateUser(principal);
+  }
+
+  private User updateOrCreateUser(Principal principal) {
+    long id = Long.parseLong(getPrincipalProperty(principal, "id"));
+    String username = getPrincipalProperty(principal, "name");
+    User user = new User(id, username);
+    userRepository.save(user);
+    return user;
+  }
+
+  private String getPrincipalProperty(Principal principal, String property) {
+    return ((Map<String, String>) ((OAuth2Authentication) principal).getUserAuthentication().getDetails()).get(property);
   }
 
   @Override

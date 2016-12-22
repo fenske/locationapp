@@ -17,9 +17,12 @@ package com.antonfenske;
 
 import java.security.Principal;
 
+import com.antonfenske.model.User;
+import com.antonfenske.model.UserRepository;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
@@ -32,7 +35,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class LocationApp extends WebSecurityConfigurerAdapter {
 
   @RequestMapping("/user")
-  public Principal user(Principal principal) {
+  public Principal user(UserRepository userRepository, Principal principal) {
+//    User user = new User()
+//    userRepository.save()
     return principal;
   }
 

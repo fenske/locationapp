@@ -18,4 +18,12 @@ public class User {
 
   public User() { // jpa only
   }
+
+  public Long getId() {
+    return id;
+  }
+
+  public String getName() {
+    return name;
+  }
 }

@@ -15,3 +15,4 @@ Login with your Facebook location and pick your favourite location.
 
 ####Miscellaneous
  * Read about how user session management should be done
+ * Read about Gradle source sets

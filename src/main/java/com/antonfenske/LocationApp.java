@@ -15,21 +15,26 @@
  */
 package com.antonfenske;
 
+import com.antonfenske.model.Location;
 import com.antonfenske.model.User;
 import com.antonfenske.model.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.security.Principal;
 import java.util.Map;
+import java.util.Optional;
 
 @SpringBootApplication
 @EnableOAuth2Sso
@@ -39,17 +44,42 @@ public class LocationApp extends WebSecurityConfigurerAdapter {
   @Autowired
   private UserRepository userRepository;
 
+  private User user; //FIXME this has to be removed in favor of proper user session management
+
   @RequestMapping("/user")
   public User user(Principal principal) {
     return updateOrCreateUser(principal);
   }
 
+  @RequestMapping(path = "/savemarker", method = RequestMethod.POST)
+  public ResponseEntity<?> saveMarker(@RequestBody Map<String, String> marker) {
+    if (user != null) {
+      user.setLocation(new Location(Double.parseDouble(marker.get("lat")), Double.parseDouble(marker.get("lng"))));
+    }
+    return ResponseEntity.ok(marker);
+  }
+
+  @RequestMapping("/marker")
+  public Location marker() {
+    if (user != null) {
+      return user.getLocation();
+    } else {
+      return null;
+    }
+  }
+
   private User updateOrCreateUser(Principal principal) {
     long id = Long.parseLong(getPrincipalProperty(principal, "id"));
-    String username = getPrincipalProperty(principal, "name");
-    User user = new User(id, username);
-    userRepository.save(user);
-    return user;
+    Optional<User> userOptional = userRepository.findById(id);
+    if (!userOptional.isPresent()) {
+      String username = getPrincipalProperty(principal, "name");
+      User userEntity = new User(id, username);
+      this.user = userEntity;
+      userRepository.save(userEntity);
+      return userEntity;
+    } else {
+      return userOptional.get();
+    }
   }
 
   private String getPrincipalProperty(Principal principal, String property) {

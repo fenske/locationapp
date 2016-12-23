@@ -33,6 +33,7 @@
             <input ng-click="vm.hideMarkers()" type=button value="Hide Markers">
             <input ng-click="vm.showMarkers()" type=button value="Show All Markers">
             <input ng-click="vm.deleteMarkers()" type=button value="Delete Markers">
+            <input ng-click="vm.saveMarker()" type=button value="Save Marker">
         </div>
         <div map-lazy-load="https://maps.google.com/maps/api/js">
             <ng-map center="37.7699298, -122.4469157" zoom="12" on-click="vm.addMarker()">
@@ -65,13 +66,22 @@
                 self.authenticated = false;
             });
         };
-    }).controller('MarkerRemoveCtrl', function() {
+    }).controller('MarkerRemoveCtrl', function($http, $location) {
         var vm = this;
-        vm.positions = [{lat:37.7699298,lng:-122.4469157}];
+        $http.get("/marker").success(function(data) {
+            self.user = name;
+            vm.positions = [{lat:data.lat,lng:data.lng}];
+        });
         vm.addMarker = function(event) {
             var ll = event.latLng;
+            vm.positions = [];
             vm.positions.push({lat:ll.lat(), lng: ll.lng()});
         }
+        vm.saveMarker = function() {
+            $http.post('/savemarker', vm.positions[0], {}).success(function () {
+                $location.path("/");
+            });
+        };
         vm.deleteMarkers = function() {
             vm.positions = [];
         };

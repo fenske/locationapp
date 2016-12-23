@@ -2,6 +2,7 @@ package com.antonfenske.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 @Entity
 public class User {
@@ -10,6 +11,9 @@ public class User {
   private Long id;
 
   private String name;
+
+  @OneToOne
+  private Location location;
 
   public User(Long id, String name) {
     this.id = id;
@@ -25,5 +29,13 @@ public class User {
 
   public String getName() {
     return name;
+  }
+
+  public Location getLocation() {
+    return location;
+  }
+
+  public void setLocation(Location location) {
+    this.location = location;
   }
 }

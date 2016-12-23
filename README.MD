@@ -12,6 +12,7 @@ Login with your Facebook location and pick your favourite location.
 * Break down the code into separate classes
 * Add real database support
 * Cascade all for JPA
+* How the "Principal" magic works
 
 ####Miscellaneous
  * Read about how user session management should be done

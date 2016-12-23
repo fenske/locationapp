@@ -12,6 +12,7 @@ Login with your Facebook location and pick your favourite location.
 ####Backend
 * Get rid of the nasty user session management
 * Break down the code into separate classes
+* Add real database support
 
 ####Miscellaneous
  * Read about how user session management should be done

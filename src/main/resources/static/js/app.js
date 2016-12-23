@@ -26,7 +26,7 @@
                 });
             };
         })
-        .controller('MarkerRemoveCtrl', function ($http, $location) {
+        .controller('MarkerCtrl', function ($http, $location) {
             var vm = this;
             $http.get("/marker").success(function (data) {
                 self.user = name;

@@ -1,5 +1,6 @@
 package com.antonfenske.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
@@ -12,7 +13,7 @@ public class User {
 
   private String name;
 
-  @OneToOne
+  @OneToOne(cascade = {CascadeType.ALL})
   private Location location;
 
   public User(Long id, String name) {

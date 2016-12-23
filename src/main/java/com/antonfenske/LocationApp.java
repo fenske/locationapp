@@ -36,6 +36,7 @@ import java.security.Principal;
 import java.util.Map;
 import java.util.Optional;
 
+@SuppressWarnings("unused")
 @SpringBootApplication
 @EnableOAuth2Sso
 @RestController
@@ -44,24 +45,32 @@ public class LocationApp extends WebSecurityConfigurerAdapter {
   @Autowired
   private UserRepository userRepository;
 
-  private User user; //FIXME this has to be removed in favor of proper user session management
-
   @RequestMapping("/user")
   public User user(Principal principal) {
     return updateOrCreateUser(principal);
   }
 
   @RequestMapping(path = "/savemarker", method = RequestMethod.POST)
-  public ResponseEntity<?> saveMarker(@RequestBody Map<String, String> marker) {
-    if (user != null) {
+  public ResponseEntity<?> saveMarker(Principal principal, @RequestBody Map<String, String> marker) {
+    Optional<User> userOptional = retrieveUserEntity(principal);
+    if (userOptional.isPresent()) {
+      User user = userOptional.get();
       user.setLocation(new Location(Double.parseDouble(marker.get("lat")), Double.parseDouble(marker.get("lng"))));
+      userRepository.save(user);
     }
     return ResponseEntity.ok(marker);
   }
 
+  private Optional<User> retrieveUserEntity(Principal principal) {
+    long userId = Long.parseLong(getPrincipalProperty(principal, "id"));
+    return userRepository.findById(userId);
+  }
+
   @RequestMapping("/marker")
-  public Location marker() {
-    if (user != null) {
+  public Location marker(Principal principal) {
+    Optional<User> userOptional = retrieveUserEntity(principal);
+    if (userOptional.isPresent()) {
+      User user = userOptional.get();
       return user.getLocation();
     } else {
       return null;
@@ -73,10 +82,9 @@ public class LocationApp extends WebSecurityConfigurerAdapter {
     Optional<User> userOptional = userRepository.findById(id);
     if (!userOptional.isPresent()) {
       String username = getPrincipalProperty(principal, "name");
-      User userEntity = new User(id, username);
-      this.user = userEntity;
-      userRepository.save(userEntity);
-      return userEntity;
+      User user = new User(id, username);
+      userRepository.save(user);
+      return user;
     } else {
       return userOptional.get();
     }

@@ -4,11 +4,9 @@
 angular.module('LocationApp')
 .config(RoutesConfig);
 
-RoutesConfig.$inject = ['$urlRouterProvider', '$stateProvider', '$httpProvider'];
-function RoutesConfig($httpProvider, $urlRouterProvider, $stateProvider) {
-
-    // TODO Describe what for
-    $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+// NOTE Apparently the order of the injections matters
+RoutesConfig.$inject = ['$stateProvider', '$urlRouterProvider', '$httpProvider'];
+function RoutesConfig($stateProvider, $urlRouterProvider, $httpProvider) {
 
     // Redirect to home page if no other URL matches
     $urlRouterProvider.otherwise('/');
@@ -28,6 +26,9 @@ function RoutesConfig($httpProvider, $urlRouterProvider, $stateProvider) {
         templateUrl: '../templates/home.template.html',
         controller: 'MarkerController as markerCtrl'
     });
+
+    // TODO Describe what for
+    $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 }
 
 })();

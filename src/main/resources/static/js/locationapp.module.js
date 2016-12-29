@@ -1,6 +1,6 @@
 (function () {
 'use strict';
 
-angular.module('LocationApp', ['ngMap']);
+angular.module('LocationApp', ['ngMap', 'ui.router']);
 
 })();

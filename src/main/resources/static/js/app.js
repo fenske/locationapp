@@ -5,7 +5,7 @@
         .config(function ($httpProvider) {
             $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
         })
-        .controller("home", function ($http, $location) {
+        .controller('HomeController', function ($http, $location) {
             var self = this;
 
             $http.get("/user").success(function (data) {

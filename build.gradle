@@ -34,6 +34,7 @@ dependencies {
     compile 'org.webjars:jquery:2.1.1'
     compile 'org.webjars:bootstrap:3.2.0'
     compile 'org.webjars:angularjs-google-maps:1.17.6'
+    compile 'org.webjars:angular-ui-router:0.2.18'
     compile 'org.webjars:webjars-locator'
 
     compile 'com.h2database:h2'

@@ -3,6 +3,9 @@ Login with your Facebook location and pick your favourite location.
 
 ### Known problems
 ####Frontend
+* GOT STUCK ON GETTING "Unknown provider: $urlRouterProvider"
+* Take code from module4-solution since it works and port it here.
+
 * Break down into separate modules
 * Extract data that is supposed to be shared across controllers in a separate service
 * Fix the header problem which arises during the startup process

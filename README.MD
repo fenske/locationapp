@@ -3,8 +3,10 @@ Login with your Facebook location and pick your favourite location.
 
 ### Known problems
 ####Frontend
-* GOT STUCK ON GETTING "Unknown provider: $urlRouterProvider"
-* Take code from module4-solution since it works and port it here.
+* With the first opening of the start page there is an auto-redirect to Facebook which is blocked by CORS.
+I don't want this to happen. Instead I want to show the login button to the user.
+* MarkerController doesn't get initialized most likely because it's not defined properly. Both controllers refer to the same path
+and defined in the same template.
 
 * Break down into separate modules
 * Extract data that is supposed to be shared across controllers in a separate service

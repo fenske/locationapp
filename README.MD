@@ -5,6 +5,7 @@ Login with your Facebook location and pick your favourite location.
 ####Frontend
 * Divide logic into several controllers
 * Implement "Share my location" feature
+* Fix the Google maps key issue
 ####Backend
 * Add real database support
 * Cascade all for JPA
@@ -15,3 +16,4 @@ Login with your Facebook location and pick your favourite location.
  * Deploy to Heroku
  * Read about how user session management should be done
  * Read about Gradle source sets
+ * Read about registering your app on Facebook

@@ -97,9 +97,19 @@ public class LocationApp extends WebSecurityConfigurerAdapter {
   @Override
   protected void configure(HttpSecurity http) throws Exception {
     // @formatter:off
-    http.antMatcher("/**").authorizeRequests().antMatchers("/", "/login**", "/webjars/**").permitAll().anyRequest()
-        .authenticated().and().logout().logoutSuccessUrl("/").permitAll().and().csrf()
-        .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
+    http.antMatcher("/**")
+        .authorizeRequests()
+          .antMatchers("/", "/login**", "/webjars/**", "/js/**", "/templates/**")
+          .permitAll()
+        .anyRequest()
+        .authenticated()
+      .and()
+        .logout()
+          .logoutSuccessUrl("/")
+          .permitAll()
+      .and()
+        .csrf()
+          .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
     // @formatter:on
   }
 

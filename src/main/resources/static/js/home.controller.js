@@ -6,6 +6,9 @@ angular.module('LocationApp')
 
 function HomeController($http, $location) {
   var homeCtrl = this;
+
+  homeCtrl.googleMapsUrl = "https://maps.googleapis.com/maps/api/js?key=AIzaSyC7mHLgFyVjQZA5dmjLaLOgaitm1e1vRqA";
+
   $http.get("/user").success(function (data) {
     homeCtrl.user = data.name;
     homeCtrl.authenticated = true;

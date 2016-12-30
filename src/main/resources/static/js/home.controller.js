@@ -23,6 +23,21 @@ function HomeController($http, $location) {
       homeCtrl.authenticated = false;
     });
   };
+
+  $http.get("/marker").success(function (data) {
+      self.user = name;
+      homeCtrl.positions = [{lat: data.lat, lng: data.lng}];
+  });
+  homeCtrl.addMarker = function (event) {
+      var ll = event.latLng;
+      homeCtrl.positions = [];
+      homeCtrl.positions.push({lat: ll.lat(), lng: ll.lng()});
+  }
+  homeCtrl.saveMarker = function () {
+      $http.post('/savemarker', homeCtrl.positions[0], {}).success(function () {
+          $location.path("/");
+      });
+  };
 }
 
 })();

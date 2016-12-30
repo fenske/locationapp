@@ -19,12 +19,6 @@ function RoutesConfig($stateProvider, $urlRouterProvider, $httpProvider) {
         url: '/',
         templateUrl: '../templates/home.template.html',
         controller: 'HomeController as homeCtrl'
-    })
-
-    .state('marker', {
-        url: '/',
-        templateUrl: '../templates/home.template.html',
-        controller: 'MarkerController as markerCtrl'
     });
 
     // TODO Describe what for

@@ -42,7 +42,7 @@ dependencies {
     compile 'org.webjars:angular-ui-router:0.2.18'
     compile 'org.webjars:webjars-locator'
 
-    compile 'com.h2database:h2'
+    runtime group: 'org.postgresql', name: 'postgresql', version: '9.4.1212.jre7'
 
     testCompile 'org.springframework.boot:spring-boot-starter-test'
     testCompile 'junit:junit:4.11'

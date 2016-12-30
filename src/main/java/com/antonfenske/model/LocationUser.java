@@ -6,7 +6,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
 @Entity
-public class User {
+public class LocationUser {
 
   @Id
   private Long id;
@@ -16,12 +16,12 @@ public class User {
   @OneToOne(cascade = {CascadeType.ALL})
   private Location location;
 
-  public User(Long id, String name) {
+  public LocationUser(Long id, String name) {
     this.id = id;
     this.name = name;
   }
 
-  public User() { // jpa only
+  public LocationUser() { // jpa only
   }
 
   public Long getId() {

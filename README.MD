@@ -6,12 +6,12 @@ Login with your Facebook location and pick your favourite location.
 * Divide logic into several controllers
 * Implement "Share my location" feature
 ####Backend
-* Break down the code into separate classes
 * Add real database support
 * Cascade all for JPA
 * How the "Principal" magic works
 * How does the stuff from the LocationApp.configure() method work?
 
 ####Miscellaneous
+ * Deploy to Heroku
  * Read about how user session management should be done
  * Read about Gradle source sets

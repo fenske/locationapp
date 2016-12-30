@@ -2,8 +2,8 @@ package com.antonfenske.controllers;
 
 import static com.antonfenske.Utils.getPrincipalProperty;
 
-import com.antonfenske.model.User;
-import com.antonfenske.model.UserRepository;
+import com.antonfenske.model.LocationUser;
+import com.antonfenske.model.LocationUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,19 +15,19 @@ import java.util.Optional;
 public class UserController {
 
   @Autowired
-  private UserRepository userRepository;
+  private LocationUserRepository userRepository;
 
   @RequestMapping("/user")
-  public User user(Principal principal) {
+  public LocationUser user(Principal principal) {
     return updateOrCreateUser(principal);
   }
 
-  private User updateOrCreateUser(Principal principal) {
+  private LocationUser updateOrCreateUser(Principal principal) {
     long id = Long.parseLong(getPrincipalProperty(principal, "id"));
-    Optional<User> userOptional = userRepository.findById(id);
+    Optional<LocationUser> userOptional = userRepository.findById(id);
     if (!userOptional.isPresent()) {
       String username = getPrincipalProperty(principal, "name");
-      User user = new User(id, username);
+      LocationUser user = new LocationUser(id, username);
       userRepository.save(user);
       return user;
     } else {

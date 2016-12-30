@@ -3,8 +3,8 @@ package com.antonfenske.controllers;
 import static com.antonfenske.Utils.getPrincipalProperty;
 
 import com.antonfenske.model.Location;
-import com.antonfenske.model.User;
-import com.antonfenske.model.UserRepository;
+import com.antonfenske.model.LocationUser;
+import com.antonfenske.model.LocationUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,13 +20,13 @@ import java.util.Optional;
 public class MarkerController {
 
   @Autowired
-  private UserRepository userRepository;
+  private LocationUserRepository userRepository;
 
   @RequestMapping("/marker")
   public Location marker(Principal principal) {
-    Optional<User> userOptional = retrieveUserEntity(principal);
+    Optional<LocationUser> userOptional = retrieveUserEntity(principal);
     if (userOptional.isPresent()) {
-      User user = userOptional.get();
+      LocationUser user = userOptional.get();
       return user.getLocation();
     } else {
       return null;
@@ -35,16 +35,16 @@ public class MarkerController {
 
   @RequestMapping(path = "/savemarker", method = RequestMethod.POST)
   public ResponseEntity<?> saveMarker(Principal principal, @RequestBody Map<String, String> marker) {
-    Optional<User> userOptional = retrieveUserEntity(principal);
+    Optional<LocationUser> userOptional = retrieveUserEntity(principal);
     if (userOptional.isPresent()) {
-      User user = userOptional.get();
+      LocationUser user = userOptional.get();
       user.setLocation(new Location(Double.parseDouble(marker.get("lat")), Double.parseDouble(marker.get("lng"))));
       userRepository.save(user);
     }
     return ResponseEntity.ok(marker);
   }
 
-  private Optional<User> retrieveUserEntity(Principal principal) {
+  private Optional<LocationUser> retrieveUserEntity(Principal principal) {
     long userId = Long.parseLong(getPrincipalProperty(principal, "id"));
     return userRepository.findById(userId);
   }

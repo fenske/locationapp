@@ -6,6 +6,7 @@ Login with your Facebook location and pick your favourite location.
 * Divide logic into several controllers
 * Implement "Share my location" feature
 * Fix the Google maps key issue
+
 ####Backend
 * Add real database support
 * Cascade all for JPA
